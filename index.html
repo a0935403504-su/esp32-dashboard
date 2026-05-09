@@ -133,17 +133,14 @@ async function loadData() {
 
         html += "<div class='online'>ONLINE</div>";
 
-        html += "<div class='value'>A: ";
-        html += node.A;
-        html += "</div>";
+        html += "<div class='value'>SHIFT: " + (node.shift || "") + "</div>";
+        html += "<div class='value'>A: " + (node.A_diff ?? 0) + "</div>";
+        html += "<div class='value'>B: " + (node.B_diff ?? 0) + "</div>";
+        html += "<div class='value'>H: " + (node.H_diff ?? 0) + "</div>";
 
-        html += "<div class='value'>B: ";
-        html += node.B;
-        html += "</div>";
-
-        html += "<div class='value'>H: ";
-        html += node.H;
-        html += "</div>";
+        html += "<div class='raw'>RAW A:" + (node.rawA ?? 0);
+        html += " B:" + (node.rawB ?? 0);
+        html += " H:" + (node.rawH ?? 0) + "</div>";       
 
         html += "<div class='raw'>SEQ: ";
         html += node.seq;
