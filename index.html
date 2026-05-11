@@ -39,9 +39,21 @@ h1 {
 }
 
 .online {
-  color: #00ff66;
-  font-weight: bold;
-  font-size: 22px;
+  html += "<div class='online'>ONLINE</div>";
+
+html += "<div class='value'>A: " + 
+  (node.A_diff !== undefined ? node.A_diff : (node.A !== undefined ? node.A : 0)) + 
+  "</div>";
+
+html += "<div class='value'>B: " + 
+  (node.B_diff !== undefined ? node.B_diff : (node.B !== undefined ? node.B : 0)) + 
+  "</div>";
+
+html += "<div class='value'>H: " + 
+  (node.H_diff !== undefined ? node.H_diff : (node.H !== undefined ? node.H : 0)) + 
+  "</div>";
+
+html += "<div class='time'>" + (node.time || "") + "</div>";
 }
 
 .busy {
