@@ -149,6 +149,50 @@ async function loadData() {
 loadData();
 setInterval(loadData, 2000);
 
+async function downloadCSV() {
+
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+
+  let csv =
+    "node,id,status,A,B,H,seq,time\n";
+
+  for (let i = 1; i <= 10; i++) {
+
+    const node =
+      data ? data["node" + i] : null;
+
+    if (node) {
+
+      csv += "node" + i + ",";
+      csv += (node.id ?? i) + ",";
+      csv += (node.status ?? "") + ",";
+      csv += (node.A_diff ?? node.A ?? 0) + ",";
+      csv += (node.B_diff ?? node.B ?? 0) + ",";
+      csv += (node.H_diff ?? node.H ?? 0) + ",";
+      csv += (node.seq ?? "") + ",";
+      csv += "\"" + (node.time ?? "") + "\"";
+      csv += "\n";
+    }
+  }
+
+  const blob = new Blob(
+    [csv],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "firebase_nodes.csv";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
 </script>
 
 </body>
