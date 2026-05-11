@@ -7,12 +7,18 @@
 
 <style>
 body {
-  background: #111;
-  color: white;
-  font-family: Arial;
-  margin: 0;
-  padding: 12px;
-}
+  <button onclick="downloadCSV()" style="
+width:100%;
+height:55px;
+font-size:22px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:10px;
+margin-bottom:15px;
+">
+下載 CSV
+</button>
 
 h1 {
   text-align: center;
@@ -86,6 +92,51 @@ h1 {
 <div class="grid" id="nodes"></div>
 
 <script>
+
+async function downloadCSV() {
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+
+  let csv = "node,id,status,A,B,H,seq,time\n";
+
+  for (let i = 1; i <= 10; i++) {
+    const node = data ? data["node" + i] : null;
+
+   if (node) {
+      csv += "node" + i + ",";
+      csv += (node.id ?? i) + ",";
+      csv += (node.status ?? "") + ",";
+      csv += (node.A ?? node.A_diff ?? 0) + ",";
+      csv += (node.B ?? node.B_diff ?? 0) + ",";
+      csv += (node.H ?? node.H_diff ?? 0) + ",";
+      csv += (node.seq ?? "") + ",";
+      csv += "\"" + (node.time ?? "") + "\"";
+      csv += "\n";
+    }
+  }
+
+  const blob = new Blob(
+    [csv],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "firebase_nodes.csv";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+  const blob = new Blob(
+    [csv],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
 
 const DATA_URL = "https://su-esp32-master-default-rtdb.firebaseio.com/nodes.json";
 
