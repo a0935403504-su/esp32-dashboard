@@ -94,8 +94,20 @@ h1 {
 <script>
 
 async function downloadCSV() {
-  const res = await fetch(DATA_URL);
-  const data = await res.json();
+  document.getElementById("status").innerHTML = "正在讀取 Firebase...";
+
+const res = await fetch(DATA_URL);
+
+if (!res.ok) {
+  document.getElementById("status").innerHTML =
+    "HTTP錯誤：" + res.status + " " + res.statusText;
+  return;
+}
+
+const data = await res.json();
+
+document.getElementById("status").innerHTML =
+  "讀取成功：" + new Date().toLocaleTimeString();
 
   let csv = "node,id,status,A,B,H,seq,time\n";
 
@@ -138,7 +150,7 @@ async function downloadCSV() {
   );
 
 
-const DATA_URL = "https://su-esp32-master-default-rtdb.firebaseio.com/nodes.json";
+const DATA_URL = "https://su-esp32-master-default-rtdb.firebaseio.com/masters/master01/nodes.json";
 
 async function loadData() {
 
