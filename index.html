@@ -88,6 +88,18 @@ html += "<div class='time'>" + (node.time || "") + "</div>";
 </head>
 
 <body>
+<select id="masterSelect"
+onchange="changeMaster()"
+style="
+width:100%;
+height:50px;
+font-size:22px;
+margin-bottom:10px;
+">
+<option value="master01">master01</option>
+<option value="master02">master02</option>
+</select>
+  
 <button onclick="downloadCSV()" style="
 width:100%;
 height:55px;
@@ -110,6 +122,20 @@ margin-bottom:15px;
 <div class="grid" id="nodes"></div>
 
 <script>
+ function changeMaster() {
+
+  const m =
+    document.getElementById(
+      "masterSelect"
+    ).value;
+
+  DATA_URL =
+    "https://su-esp32-master-default-rtdb.firebaseio.com/masters/" +
+    m +
+    "/nodes.json";
+
+  loadData();
+} 
 
 const DATA_URL = "https://su-esp32-master-default-rtdb.firebaseio.com/masters/master01/nodes.json";
 
